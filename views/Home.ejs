@@ -1,0 +1,39 @@
+<div>
+     This is Home Page
+</div>
+<section>
+     <% if(locals.user){%>
+          <form action="/post/save" method="post">
+               <textarea name="content" cols="30" rows="4" placeholder="Enter Text"></textarea>
+               <input type="submit" value="Post">
+          </form>
+          <%} %>
+               <div>
+                    <ul>
+                         <% for(post of posts){%>
+                              <div style="background-color: cyan;margin-top: 10px;">
+
+                                   <!-- your post -->
+                                   <%- include('_post') -%>
+                                        <br>
+                                        <% if(locals.user){%>
+                                             <!-- add comment section -->
+                                             <%- include('_addComment') -%>
+                                                  <%} %>
+                                                       <!-- your post comment -->
+                                                       <%- include('_comment') -%>
+                              </div>
+                              <%} %>
+                    </ul>
+               </div>
+</section>
+
+<section class="user-friend">
+      <h3>Friends: </h3>
+      <% for(u of users){%>
+          
+          <p>
+               <a href="/user/profile/<%= u.id%>"><%= u.name%></a>
+          </p>
+          <%} %>
+</section>

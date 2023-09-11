@@ -1,0 +1,11 @@
+ <div class="post-div">
+                                        <li>
+                                             <% if(locals.user && locals.user.id==post.user.id){%>
+                                                  <a href="/post/delete/<%= post.id%>"><img src="https://cdn-icons-png.flaticon.com/128/6861/6861362.png" style="width: 30px;" alt="">
+                                                  </a> 
+                                                  <%} %>
+                                             
+                                             POST- <%= post.content%>                                           
+                                        </li>
+                                        <small>BY- <%= post.user.name%></small>
+                                   </div>
