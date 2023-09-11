@@ -8,6 +8,8 @@ const session= require('express-session');
 const passport= require('passport');
 const PassportLocal= require('./Config/passport-local-strategy');
 const MongoStore= require('connect-mongo');
+const flashMessage= require('connect-flash');
+const flash = require('connect-flash/lib/flash');
 const Port=8000;
 const app=express();
 app.use(expressLayout);
@@ -44,6 +46,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(
     function(req,res,next){
         if(req.isAuthenticated()){
