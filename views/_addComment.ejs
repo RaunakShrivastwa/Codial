@@ -1,8 +1,8 @@
 <div class="add-comment">
 
-    <form action="/comment/save" method="post">
+    <form action="/comment/save" id="add-com" method="post">
         <input type="text" placeholder="Add Comment" name="content">
         <input type="hidden" value="<%= post._id%>" name="post">
-        <input type="submit" value="add">
+        <input  type="submit" value="add">
     </form>
 </div>

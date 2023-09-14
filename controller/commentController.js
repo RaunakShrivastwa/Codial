@@ -2,6 +2,7 @@ const Comment = require('../model/comment');
 const Post = require('../model/post');
 
 module.exports.CreateComment = (req, res) => {
+    console.log("inside here")
     Post.findById(req.body.post).then(post => {
         if (post) {
             Comment.create({
@@ -11,6 +12,15 @@ module.exports.CreateComment = (req, res) => {
             }).then(suc => {
                 post.comments.push(suc);
                 post.save();
+                // console.log(suc)
+                if(req.xhr){
+                    return res.status(200).json({
+                      data: {
+                         comment: suc
+                      },
+                      message: 'comment Created By Ajax'
+                    })
+                  }
                 res.redirect('/');
 
             }).catch(err => {
@@ -31,6 +41,7 @@ module.exports.deleteComment=(req,res)=>{
             comment.deleteOne();
 
             Post.findByIdAndUpdate(postId,{$pull:{comments: req.params.id}}).then(succ=>{
+                req.flash('success','Comment Deleted')
                 return res.redirect('back');
             })
         }

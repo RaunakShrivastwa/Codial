@@ -59,7 +59,7 @@ module.exports.CreateUser=(req,res)=>{
 
 
 module.exports.SignIn=(req,res)=>{
-      
+      req.flash('success','Login Successfully')
   return res.redirect('/');
 
 
@@ -88,7 +88,10 @@ module.exports.SignIn=(req,res)=>{
 module.exports.signout=(req,res)=>{
   req.logout((user=>{
      console.log(user)
+     req.flash('success','LogOut Successfully')
+
   }))
+
   return res.redirect('/');
   
 }

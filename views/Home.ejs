@@ -3,29 +3,20 @@
 </div>
 <section>
      <% if(locals.user){%>
-          <form action="/post/save" method="post">
+          <form action="/post/save" method="post" id="post-form-data">
                <textarea name="content" cols="30" rows="4" placeholder="Enter Text"></textarea>
                <input type="submit" value="Post">
           </form>
           <%} %>
-               <div>
-                    <ul>
-                         <% for(post of posts){%>
-                              <div style="background-color: cyan;margin-top: 10px;">
 
-                                   <!-- your post -->
-                                   <%- include('_post') -%>
-                                        <br>
-                                        <% if(locals.user){%>
-                                             <!-- add comment section -->
-                                             <%- include('_addComment') -%>
-                                                  <%} %>
-                                                       <!-- your post comment -->
-                                                       <%- include('_comment') -%>
-                              </div>
-                              <%} %>
-                    </ul>
-               </div>
+          <div id="post-list-container">
+              <ul>
+                 <% for(post of posts){%>
+                    <%-include('_post')-%>
+                    <%} %>
+              </ul>
+          </div>
+              
 </section>
 
 <section class="user-friend">
@@ -37,3 +28,5 @@
           </p>
           <%} %>
 </section>
+
+<script src="/js/Post_add_data.js"></script>
