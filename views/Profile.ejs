@@ -1,10 +1,12 @@
+<img src="<%= user.avtar %>" alt="<%= user.name %>" style="width: 50px;border-radius: 50%;">
 <div>
-    This is Profile
+
 
     <% if(user.id==userData.id){%>
-         <form action="/user/update/<%= userData.id%>" method="post">
+         <form action="/user/update/<%= userData.id%>" method="post" enctype="multipart/form-data">
             <input type="text" name="name" placeholder="enter here" value="<%= userData.name%>">
             <input type="email" name="email" placeholder="Enter Email" value="<%= userData.email%>">
+             <input type="file" name="avtar" >
             <input type="submit" value="submit">
          </form>
         

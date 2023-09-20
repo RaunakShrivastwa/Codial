@@ -1,4 +1,6 @@
 const User = require('../model/user');
+const path= require('path');
+const fs= require('fs');
 
 module.exports.profile=function(req,res){ 
    User.findById(req.params.id).then(data=>{
@@ -96,14 +98,33 @@ module.exports.signout=(req,res)=>{
   
 }
 
-module.exports.updateUser=(req,res)=>{
+module.exports.updateUser= async (req,res)=>{
    if(req.user.id==req.params.id){
-      User.findByIdAndUpdate(req.params.id,req.body).then(Data=>{
-         return res.redirect('back');
-      }).catch(err=>{
-         console.log("There is problem with Update USer",err);
+      try{
+        let user= await User.findByIdAndUpdate(req.params.id,req.body);
+        User.uploadavtar(req,res,(err)=>{
+         if(err){
+            console.log('*****Multer Error',err);
+            return;
+         }
+          user.name=req.body.name;
+          user.email=req.body.email;
+          if(req.file){
+               if(user.avtar){
+                   fs.unlinkSync(path.join(__dirname,'..',user.avtar))
+               }
+            user.avtar=User.avatarPath + '/' + req.file.filename;
+          }
+          user.save();
+           return res.redirect('back');
+        });
+        
+      }catch(err){
+         req.flash('error', err);
+         console.log("Error", err);
          return;
-      }) 
+      }
+
    }else{
       console.log("error you are doing bad")
       return res.status(401).send("UnAuthorized");

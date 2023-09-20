@@ -24,7 +24,7 @@ app.use(express.json());
 app.set('view engine','ejs');
 app.set('views','./views')
 app.use(express.static('./AssertData'))
-
+app.use('/upload',express.static(__dirname + '/upload'))
 
 // for the session
 app.use(session({

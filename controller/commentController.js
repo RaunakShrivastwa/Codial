@@ -2,7 +2,7 @@ const Comment = require('../model/comment');
 const Post = require('../model/post');
 
 module.exports.CreateComment = (req, res) => {
-    console.log("inside here")
+    console.log(req.body.post)
     Post.findById(req.body.post).then(post => {
         if (post) {
             Comment.create({
@@ -12,15 +12,15 @@ module.exports.CreateComment = (req, res) => {
             }).then(suc => {
                 post.comments.push(suc);
                 post.save();
-                // console.log(suc)
-                if(req.xhr){
+                 console.log(suc)
+                if (req.xhr) {
                     return res.status(200).json({
-                      data: {
-                         comment: suc
-                      },
-                      message: 'comment Created By Ajax'
+                        data: {
+                            comment: suc
+                        },
+                        message: 'comment Created By Ajax'
                     })
-                  }
+                }
                 res.redirect('/');
 
             }).catch(err => {
@@ -34,18 +34,27 @@ module.exports.CreateComment = (req, res) => {
     })
 }
 
-module.exports.deleteComment=(req,res)=>{
-    Comment.findById(req.params.id).then(comment=>{
-        if(comment){
-            let postId=comment.post;
+module.exports.deleteComment = (req, res) => {
+    Comment.findById(req.params.id).then(comment => {
+        if (comment) {
+            let postId = comment.post;
             comment.deleteOne();
 
-            Post.findByIdAndUpdate(postId,{$pull:{comments: req.params.id}}).then(succ=>{
-                req.flash('success','Comment Deleted')
+            Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id } }).then(succ => {
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: {
+                            comment_id: req.params.id
+                        },
+                        message: 'Comment deleted'
+                    })
+                }
+                req.flash('success', 'Comment Deleted')
+
                 return res.redirect('back');
             })
         }
-        else{
+        else {
             return res.redirect('back');
         }
     })

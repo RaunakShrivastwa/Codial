@@ -4,24 +4,29 @@
 <div>
   <h3>Sign Up</h3>
   <small class="text-danger"><%= title%></small>
-  <form action="/user/Create" method="post">
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
-      <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
-      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" required>
-    </div>
+  <form action="/user/Create" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required>
+        </div>
 
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Name</label>
-      <input type="text" class="form-control" name="name" required>
-    </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Name</label>
+          <input type="text" class="form-control" name="name" required>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <div>if You have ?<a href="/login"> Login</a></div>
+        <div>
+          <label  class="form-label">Choose Image</label>
+          <input type="file" class="form-control" name="avtar" placeholder="Avtar" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div>if You have ?<a href="/login"> Login</a></div>
   </form>
 
 </div>
