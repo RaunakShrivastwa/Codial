@@ -7,6 +7,7 @@ const CookisParser= require('cookie-parser');
 const session= require('express-session');
 const passport= require('passport');
 const PassportLocal= require('./Config/passport-local-strategy');
+const passPortJwtStrategy= require('./Config/passport-jwt-strategy')
 const MongoStore= require('connect-mongo');
 const flashMessage= require('connect-flash');
 const flash = require('connect-flash/lib/flash');

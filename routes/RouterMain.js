@@ -10,5 +10,6 @@ router.use('/post',require('./PostRoute'))
 router.get('/signup',SignController.Signup);
 router.get('/login',SignController.login);
 router.use('/comment',require('./commentRoute'))
+router.use('/api', require('./api/API_Route_Main'))
 
 module.exports = router;

@@ -35,6 +35,7 @@ module.exports.data=function(req,res){
 
 
 module.exports.CreateUser=(req,res)=>{
+   console.log(req.body)
    User.findOne({email:req.body.email}).then(res1=>{
       if(!res1){
         User.create(req.body).then(result=>{
