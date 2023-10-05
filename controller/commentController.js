@@ -1,37 +1,50 @@
 const Comment = require('../model/comment');
 const Post = require('../model/post');
-
-module.exports.CreateComment = (req, res) => {
-    console.log(req.body.post)
-    Post.findById(req.body.post).then(post => {
+const Mailer = require('../Mailer/comment_mailer')
+const queue= require('../Config/kue');
+const workers= require('../Worker/commentEmail_worker')
+module.exports.CreateComment = async (req, res) => {
+    try {
+        let post = await Post.findById(req.body.post);
         if (post) {
-            Comment.create({
+            let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user: req.user._id
-            }).then(suc => {
-                post.comments.push(suc);
-                post.save();
-                 console.log(suc)
-                if (req.xhr) {
-                    return res.status(200).json({
-                        data: {
-                            comment: suc
-                        },
-                        message: 'comment Created By Ajax'
-                    })
-                }
-                res.redirect('/');
-
-            }).catch(err => {
-                console.log("there is problem with adding Comment", err);
-                return;
+            });
+            post.comments.push(comment);
+            post.save();
+            comment = await Comment.findById(comment._id)
+            .populate('user', 'name email avtar')
+            .populate({
+              path: 'post',
+              populate: {
+                path: 'user'
+              }
             })
+            .exec();
+            // Mailer.newComment(comment)
+            let job= queue.create('emails',comment).save(function(err){
+                 if(err){
+                     console.log("there is error with Creating process",err);
+                     return;
+                 }
+                 console.log("Process is ",job.id)
+            })
+            if (req.xhr) {
+                return res.status(200).json({
+                    data: {
+                        comment: comment
+                    },
+                    message: 'comment Created By Ajax'
+                })
+            }
+            return res.redirect('/');
         }
-    }).catch(err => {
-        console.log('There is problem with finding post', err);
+    } catch (err) {
+        console.log("there is error ", err);
         return;
-    })
+    }
 }
 
 module.exports.deleteComment = (req, res) => {
