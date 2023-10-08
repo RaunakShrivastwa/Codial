@@ -1,6 +1,6 @@
 const postSchema= require('../model/post');
 const comment= require('../model/comment');
-
+const like= require('../model/like')
 module.exports.postDataSave=(req,res)=>{
      const data={
         content:req.body.content,
@@ -31,6 +31,9 @@ module.exports.deletePost = async (req, res)=> {
        // console.log(post.user);
 
        if(post.user == req.user.id) {
+          
+           await like.deleteMany({likeable: post, onModel: 'Post'});
+           await like.deleteMany({likeable: {$in: post.comments}});
            post.deleteOne();
            await comment.deleteMany({post: req.params.id});
 

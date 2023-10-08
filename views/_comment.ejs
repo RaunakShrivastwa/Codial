@@ -10,5 +10,14 @@
         <small>
             <%=comment.user.name%>
         </small>
+        
+        <form action="/likes/toggle/?id=<%=comment.id%>&type=Comment" method="post">
+            <% if(locals.user){%>
+                  <button class="btn btn-success ">Like <%= comment.likes.length %></button>
+                 <%}else{%>
+                     <button type="button" class="btn btn-dark ">Like <%= comment.likes.length %></button>
+                     <%}
+                 %>
+           </form>
     </p> 
 </li>

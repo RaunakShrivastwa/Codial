@@ -11,5 +11,7 @@ router.get('/signup',SignController.Signup);
 router.get('/login',SignController.login);
 router.use('/comment',require('./commentRoute'))
 router.use('/api', require('./api/API_Route_Main'))
+router.use('/likes',require('./LikeRouter'));
+
 
 module.exports = router;

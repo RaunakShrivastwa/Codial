@@ -10,6 +10,18 @@
         <small>
             <%= post.user.name %>
         </small>
+
+        <!-- for the showing like -->
+          <form action="/likes/toggle/?id=<%=post.id%>&type=Post" data-id="<%= post.id %>"  data-likes="<%= post.likes.length %>" id="like-<%= post.id %>" class="like" method="post">
+           <% if(locals.user){%>
+                 <div id="like-<%= post._id%>">
+                    <span><%= post.likes.length %></span>
+                    <button class="btn btn-danger ">Like</button></div>
+                <%}else{%>
+                    <button type="button" class="btn btn-dark ">Like <%= post.likes.length %></button>
+                    <%}
+                %>
+          </form>
         <br>
     </p>
 
@@ -33,3 +45,5 @@
         </div>
     </div>
 </li>
+
+<script src="/js/like_Ajax.js"></script>
