@@ -3,32 +3,63 @@
 </div>
 <section>
      <% if(locals.user){%>
-          <form action="/post/save" method="post" id="post-form-data" >
+          <form action="/post/save" method="post" id="post-form-data">
                <textarea name="content" cols="30" rows="4" placeholder="Enter Text"></textarea>
                <input type="submit" value="Post">
           </form>
           <%} %>
 
-          <div id="post-list-container">
-              <ul>
-                 <% for(post of posts){%>
-                    <%-include('_post')-%>
-                    <%} %>
-              </ul>
-          </div>
-              
+               <div id="post-list-container">
+                    <ul>
+                         <% for(post of posts){%>
+                              <%-include('_post')-%>
+                                   <%} %>
+                    </ul>
+               </div>
+
 </section>
 
 <section class="user-friend">
-      <h3>Friends: </h3>
-      <% for(u of users){%>
-          
+     <h3>Friends: </h3>
+     <% for(u of users){%>
+
           <p>
-               <a href="/user/profile/<%= u.id%>"><%= u.name%></a>
+               <a href="/user/profile/<%= u.id%>">
+                    <%= u.name%>
+               </a>
                <button class="btn btn-outline-primary bg-danger"><a href="/user/friend/add/<%= u.id %>">Add</a></button>
           </p>
-           
+
           <%} %>
 </section>
 
-<script src="/js/Post_add_data.js"></script>
+<% if(locals.user){%>
+     <section class="d-flex justify-content-start">
+          <div>
+               <h3>My Friends:</h3>
+               <% for(f of frend.friends){%>
+
+                    <p>
+                         <%= f.name %>
+                    </p>
+
+                    <%} %>
+          </div>
+     </section>
+
+     <%} %>
+
+          <section>
+               <%-include('chat-box')-%>
+          </section>
+
+          <script src="/js/Post_add_data.js"></script>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js"></script>
+          <script src="/js/chat_engine.js"></script>
+          <% if (locals.user){ %>
+
+               <script>
+                    new ChatEngine('user-chat-box', '<%= locals.user._id %>')
+               </script>
+               <% } %>

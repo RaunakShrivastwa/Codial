@@ -2,10 +2,9 @@ const post = require('../model/post')
 const User = require('../model/user')
 const Comment = require('../model/post')
 
+
 module.exports.home = async function (req, res) {
-   try {
-     
-      console.log("user data  ", user);
+   try {   
       let data = await post.find({})
          .sort('-createdAt')
          .populate('user')
@@ -16,22 +15,23 @@ module.exports.home = async function (req, res) {
             }
          })
         
-        // console.log("post data ",data)
+      //   console.log("post data ",data)
 
-        let user= await User.find({}).populate('friends')
-      
-      //   .populate({
-      //    path: 'friends',
-      //    populate: {
-      //       path: 'user'
-      //    }
-      // })
-
-        //console.log("user data  ", user);
+        let user= await User.find({})
+        if(req.user){
+         const frnd= await User.findById(req.user._id).populate('friends')
+         return res.render('Home', {
+            title: 'Home | Page',
+            posts: data,
+            users: user,
+            frend: frnd
+          });
+        }
         return res.render('Home', {
           title: 'Home | Page',
           posts: data,
           users: user,
+          frend: ""
         });
        
 

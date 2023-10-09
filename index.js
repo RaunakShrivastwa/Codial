@@ -13,9 +13,17 @@ const flashMessage= require('connect-flash');
 const flash = require('connect-flash/lib/flash');
 const customeFlash= require('./Config/middleWare')
 const Google= require('./Config/passport-google-oauth-Strategy')
+ // Import the cors package
 
 const Port=8000;
 const app=express();
+
+// for chat server
+const chatServer = require('http').Server(app);
+const chatSockets = require('./Config/chat_socket').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
+
 app.use(expressLayout);
 // extracting the style for the pages
 app.use(CookisParser());
