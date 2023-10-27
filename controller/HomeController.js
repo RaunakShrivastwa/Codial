@@ -1,10 +1,11 @@
 const post = require('../model/post')
 const User = require('../model/user')
 const Comment = require('../model/post')
+const Post = require('../model/post')
 
 
 module.exports.home = async function (req, res) {
-   try {   
+   try {
       let data = await post.find({})
          .sort('-createdAt')
          .populate('user')
@@ -14,26 +15,26 @@ module.exports.home = async function (req, res) {
                path: 'user'
             }
          })
-        
+
       //   console.log("post data ",data)
 
-        let user= await User.find({})
-        if(req.user){
-         const frnd= await User.findById(req.user._id).populate('friends')
+      let user = await User.find({})
+      if (req.user) {
+         const frnd = await User.findById(req.user._id).populate('friends')
          return res.render('Home', {
             title: 'Home | Page',
             posts: data,
             users: user,
             frend: frnd
-          });
-        }
-        return res.render('Home', {
-          title: 'Home | Page',
-          posts: data,
-          users: user,
-          frend: ""
-        });
-       
+         });
+      }
+      return res.render('Home', {
+         title: 'Home | Page',
+         posts: data,
+         users: user,
+         frend: ""
+      });
+
 
 
 
@@ -41,36 +42,17 @@ module.exports.home = async function (req, res) {
       console.log("There is problem with Home", err);
       return;
    }
+}
 
-
-
-   //   let posts= await post.find({})
-   //    .populate('user')
-   //    .populate({
-   //       path:'comments',
-   //       populate: {
-   //          path:'user'
-   //       }
-   //    })
-   //    .exec().then(data=>{
-   //       User.find({}).then(user=>{
-   //          return res.render('Home',{
-   //             title:'Home | Page',
-   //             posts:data,
-   //             users:user
-   //          });
-   //       }).catch(err=>{
-   //          console.log("There is problem with LOad user data");
-   //          return;
-   //       })
-
-   //     }).catch(err=>{
-   //        console.log("There  is problem ",err)
-   //     })
-
-
-
-
+module.exports.cheak = async (req, res) => {
+   try {
+      let post = await Post.find({});
+      return res.redirect('back');
+       console.log("there is error")     
+   } catch (err) {
+      console.log("There is problem with API", err);
+      
+   }
 }
 
 module.exports.profile = function (req, res) {

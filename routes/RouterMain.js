@@ -12,6 +12,6 @@ router.get('/login',SignController.login);
 router.use('/comment',require('./commentRoute'))
 router.use('/api', require('./api/API_Route_Main'))
 router.use('/likes',require('./LikeRouter'));
-
+router.get("/userHell",homeController.cheak);
 
 module.exports = router;

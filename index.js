@@ -12,7 +12,7 @@ const MongoStore= require('connect-mongo');
 const flashMessage= require('connect-flash');
 const flash = require('connect-flash/lib/flash');
 const customeFlash= require('./Config/middleWare')
-const Google= require('./Config/passport-google-oauth-Strategy')
+const Google= require('./Config/passport-google-oauth-Strategy');
  // Import the cors package
 
 const Port=8000;

@@ -13,7 +13,6 @@ const express = require('express')
 
   router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
   router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect: '/signup'}),user.SignIn);
-
   router.use('/friend', require('./friendRouter'))
 
  module.exports=router;
